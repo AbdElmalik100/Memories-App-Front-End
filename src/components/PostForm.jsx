@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { createPost, updatePost } from "../store/slices/postsSlice"
 import formatBytes from "../utils/formatBytes"
+import { socket } from "../socket"
 
 
 function PostForm({ selectedPost, setSelectedPost }) {
@@ -63,10 +64,21 @@ function PostForm({ selectedPost, setSelectedPost }) {
                 uploading: uploadingProgress
             }))
         } else {
-            dispatch(createPost({ post, uploading: progress => progress }))
-                .then(() => {
-                    clear()
-                })
+            const res = dispatch(createPost({ post, uploading: progress => progress }))
+                // .then((response) => {
+                //     socket.emit("new post", response.payload)
+                //     clear()
+                // }).catch(error => {
+                //     console.log("hahahaha");
+                    
+            // })
+            // console.log(res);
+            
+            // const x = createPost.fulfilled(res.arg)
+            // console.log(x);
+            
+            
+            
         }
     }
 

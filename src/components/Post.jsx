@@ -56,7 +56,7 @@ function Post(props) {
                     <div className='actions flex items-center justify-between mt-auto'>
                         <button className={`likes text-sky-600 flex items-center gap-1 p-1.5 px-4 rounded-lg transition ease-in-out ${!user ? 'hover:bg-none opacity-25' : 'hover:bg-sky-600 hover:text-white'}`}
                             disabled={!user}
-                            onClick={() => dispatch(likePost(props.post))}>
+                            onClick={() => dispatch(likePost({post: props.post, user}))}>
                             <Icon icon={(props.post.likes.includes(user?._id)) ? 'solar:like-bold' : 'solar:like-broken'} fontSize={20} className='' />
                             <span>Like {props.post.likes.length}</span>
                         </button>

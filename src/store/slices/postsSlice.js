@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { socket } from '../../socket'
 
 
 
@@ -23,12 +24,12 @@ export const createPost = createAsyncThunk('postsSlice/createPost', async ({ pos
     }
 })
 
-export const updatePost = createAsyncThunk('postSlice/updatePost', async ({ post, uploading}, { rejectWithValue }) => {
+export const updatePost = createAsyncThunk('postSlice/updatePost', async ({ post, uploading }, { rejectWithValue }) => {
     try {
         const formData = new FormData()
         for (let key in post) key === 'selected_file' ? formData.append(key, post[key]) : formData.append(key, JSON.stringify(post[key]))
         const response = await axios.patch(`api/posts/${post._id}`, formData, { onUploadProgress: progress => uploading(progress) })
-        
+
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -46,10 +47,10 @@ export const deletePost = createAsyncThunk('postSlice/deletePost', async ({ post
 })
 
 
-export const likePost = createAsyncThunk('postSlice/likePost', async (post, { rejectWithValue }) => {
+export const likePost = createAsyncThunk('postSlice/likePost', async ({post, user}, { rejectWithValue }) => {
     try {
         const response = await axios.post(`api/posts/like-post/${post._id}`)
-        return response.data
+        return {response: response.data, user}
     } catch (error) {
         console.log(error);
         return rejectWithValue(error.response.data)
@@ -94,6 +95,7 @@ export const postsSlice = createSlice({
             }).addCase(createPost.fulfilled, (state, action) => {
                 state.loading.form = false
                 state.posts.data = [...state.posts.data, action.payload]
+                socket.emit("new post", action.payload)
                 toast.success("Post updated successfuly!")
             }).addCase(createPost.rejected, (state, action) => {
                 state.loading.form = false
@@ -106,7 +108,7 @@ export const postsSlice = createSlice({
                 state.loading.form = true
                 state.errors = {}
             }).addCase(updatePost.fulfilled, (state, action) => {
-                state.loading.form = false                
+                state.loading.form = false
                 state.posts.data = state.posts.data.map(post => post._id === action.payload._id ? action.payload : post)
                 toast.success("Post updated successfuly!")
             }).addCase(updatePost.rejected, (state, action) => {
@@ -120,7 +122,7 @@ export const postsSlice = createSlice({
                 state.loading.delete = true
                 state.errors = {}
             }).addCase(deletePost.fulfilled, (state, action) => {
-                state.loading.delete = false                
+                state.loading.delete = false
                 state.posts.data = state.posts.data.filter(post => post._id !== action.payload._id)
                 toast.success("Post deleted successfuly!")
             }).addCase(deletePost.rejected, (state, action) => {
@@ -131,8 +133,12 @@ export const postsSlice = createSlice({
         builder
             .addCase(likePost.pending, state => {
                 state.errors = {}
-            }).addCase(likePost.fulfilled, (state, action) => {                
-                state.posts.data = state.posts.data.map(post => post._id === action.payload._id ? action.payload : post)
+            }).addCase(likePost.fulfilled, (state, action) => {
+                state.posts.data = state.posts.data.map(post => post._id === action.payload.response._id ? action.payload.response : post)
+                socket.emit("like_post", {
+                    user: action.payload.user,
+                    post: action.payload.response
+                })
             }).addCase(likePost.rejected, (state, action) => {
                 state.errors = action.payload
             })

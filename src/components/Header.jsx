@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import UserItem from './UserItem';
+import UserNotification from './UserNotification';
 
 
 function Header() {
@@ -29,7 +30,10 @@ function Header() {
             {
                 user
                     ?
-                    <UserItem />
+                    <div className='user flex items-center gap-4'>
+                        <UserNotification />
+                        <UserItem />
+                    </div>
                     :
                     <div className='auth flex gap-2'>
                         <Link to='/signup' className='secondary-btn'>Sign up</Link>
