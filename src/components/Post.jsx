@@ -22,7 +22,7 @@ function Post(props) {
 
             <div className="post-card rounded-lg bg-neutral-50 shadow-md overflow-hidden h-full flex flex-col">
                 <div className='image relative h-[250px] before:absolute before:w-full before:h-full before:bg-black/30'>
-                    <img className='object-cover h-full w-full' src={props.post.selected_file ? `${import.meta.env.VITE_UPLOADS}${props.post.selected_file}` : 'https:placehold.co/100X100?text=?'} alt="" />
+                    <img className='object-cover h-full w-full' src={props.post.selected_file ? `${import.meta.env.VITE_UPLOADS}${props.post.selected_file}` : 'https://placehold.co/100X100?text=?'} alt="" />
                     <div className='author absolute text-white top-3 left-5'>
                         <h3 className='text-lg capitalize'>{props.post.creator.first_name}</h3>
                         <span className='text-xs'>{moment(props.post.created_at).fromNow()}</span>
