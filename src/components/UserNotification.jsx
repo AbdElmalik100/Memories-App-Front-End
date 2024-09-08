@@ -13,7 +13,7 @@ function UserNotification() {
     })
 
     return (
-        <div ref={userNotification} className='notification relative'>
+        <div ref={userNotification} className='notification md:relative'>
             <div className='relative rounded-full grid place-items-center cursor-pointer transition-all ease-in-out hover:text-sky-400'
                 onClick={() => setShowNotification(val => !val)}
             >
@@ -26,7 +26,7 @@ function UserNotification() {
                 }
                 <Icon icon='mingcute:notification-line' fontSize={24} />
             </div>
-            <div className={`notification-wrapper min-h-[250px] border transition-all ease-in-out z-20 bg-white absolute top-8 right-0 rounded-lg shadow-md w-[350px] p-3 ${showNotification ? 'visible opacity-100 scale-100' : 'invisible opacity-0 scale-95'}`}>
+            <div className={`notification-wrapper min-h-[250px] border transition-all ease-in-out z-20 bg-white absolute md:top-8 top-16 md:translate-x-0 md:right-0 right-1/2 translate-x-1/2 rounded-lg shadow-md w-[350px] p-3 ${showNotification ? 'visible opacity-100 scale-100' : 'invisible opacity-0 scale-95'}`}>
                 <h3 className='font-bold text-lg mb-3 ms-2'>Notifications</h3>
                 <div className='notifications overflow-auto max-h-[400px]'>
                     {

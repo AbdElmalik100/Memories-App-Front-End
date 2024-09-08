@@ -9,7 +9,7 @@ function Header() {
     const user = useSelector(state => state.users.user)
     
     return (
-        <header className="flex items-center justify-between gap-5 p-4 px-8 border-b">
+        <header className="flex relative items-center justify-between gap-5 p-4 px-8 border-b">
             <Link to='/'>
                 <h2 className="uppercase font-bold text-3xl">Memories</h2>
             </Link>
