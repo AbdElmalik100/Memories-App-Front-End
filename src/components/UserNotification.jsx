@@ -39,6 +39,7 @@ function UserNotification() {
                                         <p>
                                             <span className='capitalize font-bold'>{notification.sender.first_name} </span>
                                             {notification.message}
+                                            "{notification.post.title}"
                                         </p>
                                         <span className='block text-sky-500 text-xs font-light'>
                                             {moment(notification.created_at).fromNow()}
