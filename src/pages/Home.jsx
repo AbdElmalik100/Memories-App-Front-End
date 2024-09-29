@@ -26,10 +26,10 @@ function Home() {
             <div className='app-content py-12'>
                 <div className={`container px-4 lg:w-[1200px] w-full flex gap-8 lg:flex-row flex-col-reverse items-stretch`}>
                     {
-                        posts.data &&
-                        <div className={`left-side gap-5 w-full grid md:grid-cols-2 grid-cols-1 md:col-span-2 col-span-1 grow ${!posts.data.length ? 'content-stretch' : 'content-start'}`}>
+                        // posts.data &&
+                        <div className={`left-side gap-5 w-full grid md:grid-cols-2 grid-cols-1 md:col-span-2 col-span-1 grow ${!posts.data?.length ? 'content-stretch' : 'content-start'}`}>
                             {
-                                !posts.data.length
+                                !posts.data?.length
                                     ?
                                     <div className='empty grid place-items-center col-span-2 h-full'>
                                         <div className='text-neutral-400 text-center'>
